@@ -43,7 +43,7 @@ convert_size() {
 
 cleanup_files() {
     rm -f hello.o hello.ali b~* *.o *.ali *.hi *.dyn_hi *.dyn_o
-    rm -f hello_c hello hello_d hello_nim hello_cr hello_haskell
+    rm -f hello_c hello_cpp hello hello_d hello_nim hello_cr hello_haskell
     rm -f hello_ada hello_pascal hello_zig hello_crystal
 }
 
@@ -83,7 +83,8 @@ main() {
     echo
 
     declare -A compile_commands=(
-        ["C"]="gcc -o hello_c hello.c -Os"
+        ["C"]="gcc -o hello_c hello.c"
+        ["C++"]="clang++ -o hello_cpp hello.cpp -lstdc++"
         ["Go"]="go build -ldflags=\"-s -w\" -o hello hello.go"
         ["Rust"]="rustc hello.rs -o hello"
         ["Ada"]="gnatmake hello.adb -o hello"
@@ -101,6 +102,7 @@ main() {
         
         case $lang in
             "C") source_file="hello.c"; output_file="hello_c" ;;
+            "C++") source_file="hello.cpp"; output_file="hello_cpp" ;;
             "Go") source_file="hello.go" ;;
             "Rust") source_file="hello.rs" ;;
             "Ada") source_file="hello.adb" ;;
