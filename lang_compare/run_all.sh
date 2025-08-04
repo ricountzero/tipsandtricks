@@ -90,7 +90,7 @@ main() {
         ["Ada"]="gnatmake hello.adb -o hello"
         ["Pascal"]="fpc hello.pa -ohello"
         ["D"]="dmd hello.d -ofhello"
-        ["Nim"]="nim compile --run hello.nim"
+        ["Nim"]="nim compile hello.nim"
         ["Zig"]="zig build-exe hello.zig"
         ["Crystal"]="crystal build hello.cr -o hello"
         ["Haskell"]="ghc hello.hs -o hello"
