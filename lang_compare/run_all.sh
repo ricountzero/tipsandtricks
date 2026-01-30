@@ -83,17 +83,17 @@ main() {
     echo
 
     declare -A compile_commands=(
-        ["C"]="gcc -o hello_c hello.c"
-        ["C++"]="clang++ -o hello_cpp hello.cpp -lstdc++"
-        ["Go"]="go build -ldflags=\"-s -w\" -o hello hello.go"
-        ["Rust"]="rustc hello.rs -o hello"
-        ["Ada"]="gnatmake hello.adb -o hello"
-        ["Pascal"]="fpc hello.pa -ohello"
-        ["D"]="dmd hello.d -ofhello"
-        ["Nim"]="nim compile hello.nim"
-        ["Zig"]="zig build-exe hello.zig"
-        ["Crystal"]="crystal build hello.cr -o hello"
-        ["Haskell"]="ghc hello.hs -o hello"
+        ["C"]="clang -static -o hello_c hello.c"
+        ["C++"]="clang++ -static -o hello_cpp hello.cpp -lstdc++"
+        ["Go"]="CGO_ENABLED=0 go build -ldflags=\"-s -w\" -o hello hello.go"
+        #["Rust"]="rustc -C target-feature=+crt-static -C link-args=-static hello.rs -o hello"
+        ["Ada"]="gnatmake -static hello.adb -o hello"
+        ["Pascal"]="fpc -Xs hello.pa -ohello"
+        ["D"]="dmd -L-static hello.d -ofhello"
+        ["Nim"]="nim compile --passC:-static --passL:-static hello.nim"
+        ["Zig"]="zig build-exe -static hello.zig"
+        ["Crystal"]="crystal build --static hello.cr -o hello"
+        ["Haskell"]="ghc -static hello.hs -o hello"
     )
 
     for lang in "${!compile_commands[@]}"; do
@@ -123,7 +123,7 @@ main() {
     echo
     print_status "$GREEN" "Compilation complete. Results:"
     echo
-    echo "| Programming Language | Binary Size |"
+    echo "|Programming Language | Binary Size |"
     echo "|---------------------|-------------|"
 
     for lang in "${!sizes[@]}"; do 
