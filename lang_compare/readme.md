@@ -10,7 +10,14 @@ All examples print `Hello, world!` and exit cleanly.
 
 ```bash
 C:       clang -static -o hello hello.c
-C++:     clang++ -static -o hello hello.cpp -lstdc++
+C++:     clang++ -static -o hello_cpp hello.cpp \
+                    -lstdc++              \
+                    -Os                   \
+                    -s                    \
+                    -ffunction-sections   \
+                    -fdata-sections       \
+                    -Wl,--gc-sections     \
+                    -Wl,--strip-all
 Go:      CGO_ENABLED=0 go build -ldflags="-s -w" -o hello hello.go
 Ada:     gnatmake -static hello.adb -o hello
 Pascal:  fpc -Xs hello.pas -ohello_pascal

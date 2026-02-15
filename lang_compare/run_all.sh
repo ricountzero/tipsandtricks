@@ -84,7 +84,14 @@ main() {
 
     declare -A compile_commands=(
         ["C"]="clang -static -o hello_c hello.c"
-        ["C++"]="clang++ -static -o hello_cpp hello.cpp -lstdc++"
+        ["C++"]="clang++ -static -o hello_cpp hello.cpp \
+                    -lstdc++              \
+                    -Os                   \
+                    -s                    \
+                    -ffunction-sections   \
+                    -fdata-sections       \
+                    -Wl,--gc-sections     \
+                    -Wl,--strip-all"
         ["Go"]="CGO_ENABLED=0 go build -ldflags=\"-s -w\" -o hello hello.go"
         #["Rust"]="rustc -C target-feature=+crt-static -C link-args=-static hello.rs -o hello"
         ["Ada"]="gnatmake -static hello.adb -o hello"
