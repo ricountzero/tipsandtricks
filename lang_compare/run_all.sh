@@ -27,7 +27,7 @@ get_size_kb() {
 convert_size() {
     local size_kb=$1
     local result=""
-    
+
     if [[ $size_kb -lt 1024 ]]; then
         result="${size_kb}K"
     elif [[ $size_kb -lt 1048576 ]]; then
@@ -37,7 +37,7 @@ convert_size() {
         local gb=$(awk "BEGIN {printf \"%.1f\", $size_kb/1048576}")
         result="${gb}G"
     fi
-    
+
     printf "%7s" "$result"
 }
 
@@ -59,20 +59,20 @@ compile_and_run() {
     fi
 
     print_status "$YELLOW" "Compiling $lang..."
-    
+
     cleanup_files
-    
+
     if eval "$compile_cmd" 2>/dev/null; then
         local size_kb=$(get_size_kb "$output")
         sizes["$lang"]=$size_kb
         print_status "$GREEN" "✓ $lang compiled successfully (${size_kb}KB)"
-        
+
         # Clean up files after size comparison
         cleanup_files
     else
         print_status "$RED" "✗ Failed to compile $lang"
         sizes["$lang"]="0"
-        
+
         # Clean up files even if compilation failed
         cleanup_files
     fi
@@ -91,15 +91,16 @@ main() {
         ["Pascal"]="fpc -Xs hello.pa -ohello"
         ["D"]="dmd -L-static hello.d -ofhello"
         ["Nim"]="nim compile --passC:-static --passL:-static hello.nim"
-        ["Zig"]="zig build-exe -static hello.zig"
-        ["Crystal"]="crystal build --static hello.cr -o hello"
-        ["Haskell"]="ghc -static hello.hs -o hello"
+        ["Zig"]="zig build-exe -static hello.zig -O ReleaseSmall"
+        ["Crystal"]="crystal build --static hello.cr -o hello --release"
+        ["Haskell"]="ghc -static hello.hs -o hello -O2 -optl=-s"
+        ["Odin"]="odin build hello.odin -file -out:hello"
     )
 
     for lang in "${!compile_commands[@]}"; do
         local source_file="hello.${lang,,}"
         local output_file="hello"
-        
+
         case $lang in
             "C") source_file="hello.c"; output_file="hello_c" ;;
             "C++") source_file="hello.cpp"; output_file="hello_cpp" ;;
@@ -112,8 +113,9 @@ main() {
             "Zig") source_file="hello.zig" ;;
             "Crystal") source_file="hello.cr" ;;
             "Haskell") source_file="hello.hs" ;;
+            "Odin") source_file="hello.odin" ;;
         esac
-        
+
         compile_and_run "$lang" "$source_file" "$output_file" "${compile_commands[$lang]}"
     done
 
@@ -126,7 +128,7 @@ main() {
     echo "|Programming Language | Binary Size |"
     echo "|---------------------|-------------|"
 
-    for lang in "${!sizes[@]}"; do 
+    for lang in "${!sizes[@]}"; do
         printf "%d %s\n" "${sizes[$lang]}" "$lang"
     done | sort -n | while read -r size lang; do
         human_size=$(convert_size "$size")
