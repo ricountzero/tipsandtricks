@@ -45,6 +45,7 @@ cleanup_files() {
     rm -f hello.o hello.ali b~* *.o *.ali *.hi *.dyn_hi *.dyn_o
     rm -f hello_c hello_cpp hello hello_d hello_nim hello_cr hello_haskell
     rm -f hello_ada hello_pascal hello_zig hello_crystal
+    rm -f hello.cmi hello.cmx
 }
 
 compile_and_run() {

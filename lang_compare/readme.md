@@ -1,6 +1,6 @@
 # Statically Linked "Hello, World!" Binary Size Comparison
 
-This project collects simple **Hello, World!** programs in C, C++, Go, Ada, Pascal, D, Nim, Zig, Crystal, Haskell, Odin. All built as **fully static** (self-contained) executables with no dynamic library dependencies.
+This project collects simple **Hello, World!** programs in C, C++, Go, Ada, Pascal, D, Nim, Zig, Crystal, Haskell, Odin, OCaml. All built as **fully static** (self-contained) executables with no dynamic library dependencies.
 
 Goal: Compare the resulting binary file sizes for portable, single-file binaries.
 
@@ -27,6 +27,7 @@ Zig:     zig build-exe -static hello.zig -O ReleaseSmall
 Crystal: crystal build --static hello.cr -o hello --release
 Haskell: ghc -static hello.hs -o hello_hs -O2 -optl=-s
 Odin     odin build hello.odin -file -out:hello
+OCaml    ocamlopt hello.ml -o hello
 ```
 
 ### Binary size comparison chart
