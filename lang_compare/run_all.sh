@@ -102,6 +102,7 @@ main() {
         ["Crystal"]="crystal build --static hello.cr -o hello --release"
         ["Haskell"]="ghc -static hello.hs -o hello -O2 -optl=-s"
         ["Odin"]="odin build hello.odin -file -out:hello"
+        ["OCaml"]="ocamlopt hello.ml -o hello"
     )
 
     for lang in "${!compile_commands[@]}"; do
@@ -121,6 +122,7 @@ main() {
             "Crystal") source_file="hello.cr" ;;
             "Haskell") source_file="hello.hs" ;;
             "Odin") source_file="hello.odin" ;;
+            "OCaml") source_file="hello.ml" ;;
         esac
 
         compile_and_run "$lang" "$source_file" "$output_file" "${compile_commands[$lang]}"
