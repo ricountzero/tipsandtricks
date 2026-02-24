@@ -45,7 +45,6 @@ cleanup_files() {
     rm -f hello.o hello.ali b~* *.o *.ali *.hi *.dyn_hi *.dyn_o
     rm -f hello_c hello_cpp hello hello_d hello_nim hello_cr hello_haskell
     rm -f hello_ada hello_pascal hello_zig hello_crystal
-    rm -f hello.cmi hello.cmx
 }
 
 compile_and_run() {
@@ -103,7 +102,6 @@ main() {
         ["Crystal"]="crystal build --static hello.cr -o hello --release"
         ["Haskell"]="ghc -static hello.hs -o hello -O2 -optl=-s"
         ["Odin"]="odin build hello.odin -file -out:hello"
-        ["OCaml"]="ocamlopt hello.ml -o hello"
         ["COBOL"]="cobc -x -static hello.cob -o hello"
     )
 
@@ -124,7 +122,6 @@ main() {
             "Crystal") source_file="hello.cr" ;;
             "Haskell") source_file="hello.hs" ;;
             "Odin") source_file="hello.odin" ;;
-            "OCaml") source_file="hello.ml" ;;
             "COBOL") source_file="hello.cob" ;;
         esac
 
