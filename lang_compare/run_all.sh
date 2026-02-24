@@ -104,6 +104,7 @@ main() {
         ["Haskell"]="ghc -static hello.hs -o hello -O2 -optl=-s"
         ["Odin"]="odin build hello.odin -file -out:hello"
         ["OCaml"]="ocamlopt hello.ml -o hello"
+        ["COBOL"]="cobc -x -static hello.cob -o hello"
     )
 
     for lang in "${!compile_commands[@]}"; do
@@ -124,6 +125,7 @@ main() {
             "Haskell") source_file="hello.hs" ;;
             "Odin") source_file="hello.odin" ;;
             "OCaml") source_file="hello.ml" ;;
+            "COBOL") source_file="hello.cob" ;;
         esac
 
         compile_and_run "$lang" "$source_file" "$output_file" "${compile_commands[$lang]}"
